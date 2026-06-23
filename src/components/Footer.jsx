@@ -19,7 +19,12 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-600 text-xs">
           <p>© {new Date().getFullYear()} Grupo Contreras y Asociados M&M. {t.footer.rights}</p>
-          <a href="/#inicio" className="text-[#EFD49C] hover:underline">{t.footer.backTop}</a>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="text-[#EFD49C] hover:underline cursor-pointer"
+          >
+            {t.footer.backTop}
+          </button>
         </div>
       </div>
     </footer>

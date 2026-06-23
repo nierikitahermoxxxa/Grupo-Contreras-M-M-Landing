@@ -56,12 +56,14 @@ export default function Hero({ dark }) {
 
           <div className="relative z-10 w-full max-w-lg mx-auto px-6 sm:px-10 lg:px-0 lg:ml-16 xl:ml-24">
 
-            <div className="inline-block border border-[#EFD49C]/40 bg-black p-3 mb-6 sm:mb-8">
-              <img
-                src={logo}
-                alt="S. Contreras & Asociados M&M"
-                className="h-24 sm:h-28 lg:h-32 w-auto block"
-              />
+            <div className="flex justify-center lg:justify-start mb-6 sm:mb-8">
+              <div className="inline-block border border-[#EFD49C]/40 bg-black p-3">
+                <img
+                  src={logo}
+                  alt="S. Contreras & Asociados M&M"
+                  className="h-24 sm:h-28 lg:h-32 w-auto block"
+                />
+              </div>
             </div>
 
             <div className="flex items-center gap-3 mb-5">
@@ -85,17 +87,17 @@ export default function Hero({ dark }) {
               {t.hero.subtitle}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-5 sm:gap-4">
               <Link
                 to="/experiencia"
-                className="btn-led inline-flex items-center gap-2 justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#EFD49C] text-black font-semibold text-xs sm:text-sm tracking-widest hover:bg-[#e0c07a] transition-colors"
+                className="btn-led inline-flex items-center gap-2 justify-center px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#EFD49C] text-black font-semibold text-xs sm:text-sm tracking-widest hover:bg-[#e0c07a] transition-colors w-full sm:w-auto"
               >
                 {t.hero.button}
                 <span>→</span>
               </Link>
-              <div className="border-l border-[#EFD49C]/40 pl-4">
-                <p className="text-lg sm:text-xl font-bold text-[#EFD49C] leading-none">100%</p>
-                <p className={`text-[9px] sm:text-[10px] tracking-widest uppercase mt-1 transition-colors duration-300 ${
+              <div className="flex items-center gap-3">
+                <span className="text-2xl sm:text-xl font-bold text-[#EFD49C] leading-none">100%</span>
+                <p className={`text-[11px] sm:text-[10px] tracking-wide uppercase leading-tight transition-colors duration-300 ${
                   dark ? 'text-gray-400' : 'text-gray-500'
                 }`}>
                   {t.hero.commitment}
