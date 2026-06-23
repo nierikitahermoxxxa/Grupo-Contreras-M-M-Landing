@@ -17,6 +17,11 @@ dist-ssr
 .env.*
 !.env.example
 
+# package-lock excluido: las deps nativas de Tailwind v4 difieren entre
+# Windows y el Linux de Cloudflare, lo que rompe `npm ci`. Sin lock,
+# Cloudflare usa `npm install` y resuelve correctamente en cada plataforma.
+package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
