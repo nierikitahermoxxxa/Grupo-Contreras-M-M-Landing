@@ -35,8 +35,8 @@ export default function Ubicacion() {
 
   const info = [
     { icon: PinIcon, title: t.ubi.ubicacion, lines: ['Av. Montoya 121, Netzahualcoyotl', '68140 Oaxaca de Juárez, Oax.'] },
-    { icon: PhoneIcon, title: t.ubi.whatsapp, lines: ['951 131 4538'] },
-    { icon: MailIcon, title: t.ubi.correo, lines: ['grupocontrerasoficial@gmail.com'] },
+    { icon: PhoneIcon, title: t.ubi.whatsapp, lines: ['951 218 9735'] },
+    { icon: MailIcon, title: t.ubi.correo, lines: ['solucionescontablesmym@gmail.com'] },
     { icon: ClockIcon, title: t.ubi.horario, lines: [t.ubi.horarioValue] },
   ]
 

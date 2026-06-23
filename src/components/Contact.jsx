@@ -2,51 +2,32 @@ import { useState } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { useReveal } from '../hooks/useReveal'
 
-const WHATSAPP_NUMBER = '5219511314538' // 52 (MX) + 1 + número
-const EMAIL = 'grupocontrerasoficial@gmail.com'
-
-// 👉 Pega aquí tu Access Key de https://web3forms.com (gratis con tu correo)
-const WEB3FORMS_KEY = 'TU_ACCESS_KEY_AQUI'
+const WHATSAPP_NUMBER = '529512189735' // 52 (MX) + número WhatsApp Business
+const WHATSAPP_DISPLAY = '951 218 9735'
+const EMAIL = 'solucionescontablesmym@gmail.com'
 
 export default function Contact() {
   const { t } = useLang()
   const sectionRef = useReveal('reveal')
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', otherService: '', message: '' })
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [status, setStatus] = useState('idle') // idle | sent
 
   const serviceOptions = [...t.services.list.map(s => s.title), t.contact.serviceOther]
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = async e => {
+  const handleSubmit = e => {
     e.preventDefault()
-    setStatus('sending')
     const servicio = form.service === t.contact.serviceOther ? form.otherService : form.service
-    try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: WEB3FORMS_KEY,
-          subject: `Nueva solicitud de ${form.name} — Grupo Contreras`,
-          from_name: 'Sitio web Grupo Contreras',
-          Nombre: form.name,
-          Correo: form.email,
-          Teléfono: form.phone || 'No proporcionado',
-          Servicio: servicio || 'No especificado',
-          Mensaje: form.message,
-        }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        setStatus('sent')
-        setForm({ name: '', email: '', phone: '', service: '', otherService: '', message: '' })
-      } else {
-        setStatus('error')
-      }
-    } catch {
-      setStatus('error')
-    }
+    const text =
+      `*Nueva solicitud de información*%0A%0A` +
+      `*Nombre:* ${form.name}%0A` +
+      `*Correo:* ${form.email}%0A` +
+      (form.phone ? `*Teléfono:* ${form.phone}%0A` : '') +
+      (servicio ? `*Servicio:* ${servicio}%0A` : '') +
+      `*Mensaje:* ${form.message}`
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank')
+    setStatus('sent')
   }
 
   // Input estilo línea inferior (Kiwi Code)
@@ -112,7 +93,7 @@ export default function Contact() {
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-[#1f1f1f]">
               <p className="text-[10px] text-gray-400 dark:text-gray-500 uppercase tracking-[0.15em] mb-3">{t.contact.respondsIn}</p>
               <div className="flex flex-col gap-1.5 text-sm">
-                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-[#EFD49C] transition-colors">💬 951 131 4538</a>
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-gray-700 dark:text-gray-300 hover:text-[#EFD49C] transition-colors">💬 {WHATSAPP_DISPLAY}</a>
                 <a href={`mailto:${EMAIL}`} className="text-gray-700 dark:text-gray-300 hover:text-[#EFD49C] transition-colors break-all">✉️ {EMAIL}</a>
                 <span className="text-gray-500 dark:text-gray-500">📍 {t.contact.location}</span>
               </div>
@@ -168,21 +149,12 @@ export default function Contact() {
                   <textarea name="message" required rows={3} value={form.message} onChange={handleChange} className={`${fieldClass} resize-none`} placeholder={t.contact.messagePlaceholder} />
                 </div>
 
-                {status === 'error' && (
-                  <p className="text-red-500 text-sm">{t.contact.error}</p>
-                )}
-
                 <button
                   type="submit"
-                  disabled={status === 'sending'}
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#EFD49C] text-black font-semibold text-sm tracking-wide hover:bg-[#e0c07a] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#EFD49C] text-black font-semibold text-sm tracking-wide hover:bg-[#e0c07a] transition-colors"
                 >
-                  {status === 'sending' ? t.contact.sending : (
-                    <>
-                      <span>↓</span>
-                      {t.contact.send}
-                    </>
-                  )}
+                  <span>↓</span>
+                  {t.contact.send}
                 </button>
               </form>
             )}
