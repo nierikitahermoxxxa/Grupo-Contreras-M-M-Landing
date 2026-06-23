@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+/* Habilita dark mode por clase .dark en el html, no por media query */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ── Transición de círculo al cambiar de modo ── */
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+  animation: circle-expand 0.55s ease-in-out forwards;
+}
+@keyframes circle-expand {
+  from { clip-path: circle(0px at var(--vt-x) var(--vt-y)); }
+  to   { clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y)); }
+}
+
+/* Blobs dorados flotantes para fondos de sección */
+@keyframes floatBlob1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -30px) scale(1.1); }
+  66% { transform: translate(-30px, 20px) scale(0.95); }
+}
+@keyframes floatBlob2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 30px) scale(1.05); }
+  66% { transform: translate(30px, -25px) scale(1.1); }
+}
+.blob-1 { animation: floatBlob1 16s ease-in-out infinite; }
+.blob-2 { animation: floatBlob2 20s ease-in-out infinite; }
+
+/* Libros cayendo */
+@keyframes fallBook {
+  0% { transform: translateY(-80px) rotate(-15deg); opacity: 0; }
+  10% { opacity: 0.9; }
+  85% { opacity: 0.9; }
+  100% { transform: translateY(var(--fall-dist, 520px)) rotate(35deg); opacity: 0; }
+}
+.falling-book {
+  animation: fallBook var(--fall-dur, 7s) linear infinite;
+  animation-delay: var(--fall-delay, 0s);
+}
+
+/* Botón LED — brillo dorado animado */
+.btn-led {
+  position: relative;
+  box-shadow: 0 0 0 0 rgba(239, 212, 156, 0.6);
+  animation: ledPulse 2.4s ease-in-out infinite;
+}
+.btn-led:hover {
+  animation: none;
+  box-shadow: 0 0 25px 4px rgba(239, 212, 156, 0.7), 0 0 50px 8px rgba(239, 212, 156, 0.35);
+}
+@keyframes ledPulse {
+  0%, 100% { box-shadow: 0 0 12px 0px rgba(239, 212, 156, 0.45); }
+  50% { box-shadow: 0 0 22px 4px rgba(239, 212, 156, 0.7), 0 0 40px 8px rgba(239, 212, 156, 0.25); }
+}
+
+/* Carousel services */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.slide-in-right { animation: slideInRight 0.5s ease forwards; }
+.slide-in-left  { animation: slideInLeft  0.5s ease forwards; }
+
+/* Animaciones de reveal al hacer scroll.
+   Estado visible se aplica con estilos en línea desde useReveal,
+   para que React no lo borre al re-renderizar (ej. cambio de idioma). */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root {
+    width: 100%;
+    text-align: left;
+  }
+}
