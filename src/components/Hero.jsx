@@ -10,31 +10,40 @@ export default function Hero({ dark }) {
 
   useEffect(() => {
     const onScroll = () => {
+      if (!innerRef.current) return
+      // El efecto sticky/parallax solo en desktop; en móvil estorba
+      if (window.innerWidth < 1024) {
+        innerRef.current.style.transform = ''
+        innerRef.current.style.opacity = ''
+        return
+      }
       const y = window.scrollY
       const h = window.innerHeight
       const p = Math.min(y / h, 1)
-      if (innerRef.current) {
-        innerRef.current.style.transform = `scale(${1 - p * 0.07})`
-        innerRef.current.style.opacity = `${Math.max(1 - p * 1.4, 0)}`
-      }
+      innerRef.current.style.transform = `scale(${1 - p * 0.07})`
+      innerRef.current.style.opacity = `${Math.max(1 - p * 1.4, 0)}`
     }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   return (
     <section
       id="inicio"
-      className="sticky top-0 h-screen flex flex-col lg:flex-row z-0 overflow-hidden"
+      className="relative lg:sticky lg:top-0 lg:h-screen flex flex-col lg:flex-row z-0 overflow-hidden"
     >
       <div
         ref={innerRef}
-        className="flex flex-col lg:flex-row w-full h-full"
+        className="flex flex-col lg:flex-row w-full lg:h-full"
         style={{ willChange: 'transform, opacity', transformOrigin: 'center center' }}
       >
 
         {/* ── Panel izquierdo ── */}
-        <div className={`relative flex flex-col justify-center lg:w-[52%] pt-20 lg:pt-0 overflow-hidden transition-colors duration-500 ${
+        <div className={`relative flex flex-col justify-center lg:w-[52%] pt-28 pb-14 sm:pt-32 sm:pb-20 lg:py-0 overflow-hidden transition-colors duration-500 ${
           dark ? 'bg-[#0A0A0A]' : 'bg-white'
         }`}>
 
@@ -109,7 +118,7 @@ export default function Hero({ dark }) {
         </div>
 
         {/* ── Panel derecho: foto ── */}
-        <div className="relative lg:w-[48%] h-64 sm:h-80 lg:h-auto overflow-hidden">
+        <div className="relative lg:w-[48%] h-80 sm:h-96 lg:h-auto overflow-hidden">
           <img
             src={studio}
             alt="Estudio Contreras & Asociados"
